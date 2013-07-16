@@ -1,0 +1,27 @@
+; top-most EditorConfig file
+root = true
+
+; Unix-style newlines
+[*]
+end_of_line = CRLF
+
+; 4 space indentation
+[*.py]
+indent_style = space
+indent_size = 4
+
+; Tab indentation (no size specified)
+[*.js]
+indent_style = tab
+
+[*.conf]
+indent_style = space
+indent_size = 4
+
+[*.yaml]
+indent_style = space
+indent_size = 4
+
+[TODO]
+indent_style = space
+indent_size = 2
