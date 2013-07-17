@@ -3,50 +3,38 @@
 import os
 import imp
 import inspect
-from pprint import pprint
+from functools import partial
 import sys
-
-PYKEFILES = ['pykefile', 'Pykefile', 'pykefile.py', 'Pykefile.py']
-UNDERSCORE = '_'
-
-
-def get_pykefile():
-    for file_name in PYKEFILES:
-        file_name = os.path.join(os.getcwd(), file_name)
-        if os.path.exists(file_name):
-            return file_name
-    return None
+from pprint import pprint
+from . import tools
+from . import const
 
 
-file_name = get_pykefile()
-if not file_name:
-    exit('pykefile not found')
+# Argument reflection works this way:
 
-pykemod = imp.load_source('pykefile', file_name)
-usage = []
-names = []
-commands = {}
+# def annotated(a: int, b: str = 'hello', c = None):
+#     pass
 
-start = getattr(pykemod, 'start')
-start()
-exit()
+# pprint(annotated.__annotations__)
 
-for member in inspect.getmembers(pykemod):
-    name, func = member
-    if not hasattr(func, '__call__') or name.startswith(UNDERSCORE):
-        continue
-    usage.append("  {name} - {desc}".format(name=name, desc=func.__doc__))
-    names.append(name)
-    commands[name] = func
+# args = inspect.getfullargspec(annotated)
+# pprint(annotated.__defaults__)  # correspond to the last n elements listed in args
 
-if len(sys.argv) < 2:
-    print('usage')
-    print("\n".join(usage))
-elif sys.argv[1] in names:
-    name = sys.argv[1]
-    print("command: " + name)
-    x = commands[name]
-    x()
-else:
-    print('unknown command')
-    exit(404)
+
+
+def main():
+    file_name = tools.get_pykefile()
+    if not file_name:
+        exit("%s not found" % const.PYKEFILE)
+
+    pykemod = imp.load_source('pykefile', file_name)
+    commands = {}
+    for member in inspect.getmembers(pykemod):
+        name, func = member
+        if inspect.isfunction(func) and not name.startswith(const.UNDERSCORE):
+            commands[name] = func
+
+    # Function execution:
+
+    # f = partial(commands['start'], name=1)
+    # f('a')
