@@ -1,0 +1,21 @@
+# coding: utf-8
+
+import os
+from pprint import pprint
+
+
+def start(*args, **kwargs):
+    """start daemon"""
+    print("starting a new daemon")
+    pprint(args)
+    pprint(kwargs)
+
+
+def stop():
+    """stop daemon"""
+    print('stopping daemon')
+
+
+def status():
+    """display current status"""
+    print('probably daemon is running')
