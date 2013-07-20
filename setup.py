@@ -4,8 +4,8 @@
 
 import os
 from setuptools import setup, find_packages
-import awesometool.authoring
-from awesometool.version import get_version
+import pyke.authoring
+from pyke.version import get_version
 
 
 def get_data_files(path):
@@ -22,13 +22,13 @@ def get_data_files(path):
 
 
 setup(
-    name='awesometool',
-    description='Yet another awesome tool.',
+    name='pyke',
+    description='A missing Python make tool.',
     version=get_version(),
-    license=awesometool.authoring.__license__,
-    author=awesometool.authoring.__author__,
-    author_email=awesometool.authoring.__email__,
-    url=awesometool.authoring.__url__,
+    license=pyke.authoring.__license__,
+    author=pyke.authoring.__author__,
+    author_email=pyke.authoring.__email__,
+    url=pyke.authoring.__url__,
 
     # This will use readme contents as a long description
     long_description=open('README.md').read(),
@@ -37,14 +37,14 @@ setup(
     packages=find_packages(),
 
     # This will put all data files from the package directory to the egg
-    package_data={'awesometool': get_data_files('awesometool')},
+    package_data={'pyke': get_data_files('pyke')},
 
     # TODO: Put here required package names
     install_requires=[
     ],
 
     # TODO: Use this to define the tool's command
-    entry_points={'console_scripts': ['awesometool = awesometool.awesometool:main']},
+    entry_points={'console_scripts': ['pyke = pyke.pyke:main']},
 
     include_package_data=True,
     zip_safe=False,
