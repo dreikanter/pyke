@@ -8,3 +8,9 @@ UNDERSCORE = '_'
 
 # pykefile module name
 PYKEMOD = 'pykefile'
+
+# text to display after the argument help
+EPILOG = 'may force be with you'
+
+# available type constrains for command argument
+LEGAL_TYPES = [int, float, str, bool]
