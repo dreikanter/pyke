@@ -65,7 +65,7 @@ def _args(func):
     argerror = lambda msg: error_format % (msg, func.__name__, name)
 
     for name in inspect.signature(func).parameters:
-        altname = None
+        shortname = None
         argtype = str
         help = None
 
@@ -77,7 +77,7 @@ def _args(func):
                 help = annotation
             elif type(annotation) in [tuple, list]:
                 if len(annotation) > 2:  # got full definition
-                    argtype, altname, help = annotation[0:3]
+                    argtype, shortname, help = annotation[0:3]
                 elif len(annotation) > 1:  # got type and help
                     argtype, help = annotation[0:2]
                 elif len(annotation) > 0:
@@ -93,7 +93,8 @@ def _args(func):
             raise Exception(argerror('illegal argument type constraint'))
 
         args.append({
-                'altname': altname,
+                'name': name,
+                'shortname': shortname,
                 'type': argtype,
                 'default': False if argtype == bool else None,
                 'help': help,
@@ -104,3 +105,17 @@ def _args(func):
             args[-num]['default'] = item or ''
 
     return args
+
+
+def arg_names(arg_meta):
+    """get argument name(s) from metadata for ArgumentParser.add_argument()"""
+    result = []
+
+    if arg_meta['default']:
+        if arg_meta['shortname']:
+            result.append("-%s" % arg_meta['shortname'])
+        result.append("--%s" % arg_meta['name'])
+    else:
+        result.append("%s" % arg_meta['name'])
+
+    return result

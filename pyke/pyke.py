@@ -16,13 +16,20 @@ def parse(metadata, args, description=None):
                                      description=description,
                                      epilog=const.EPILOG)
 
-    subparsers = parser.add_subparsers(help='pyke commands')
+    subparsers = parser.add_subparsers()
+    for command in metadata:
+        subparser = subparsers.add_parser(command['name'], help=command['help'])
+        for arg in command['args']:
+            subparser.add_argument(*helpers.arg_names(arg),
+                                   default=arg['default'],
+                                   help=arg['help'])
 
-    # for command in metadata:
-    #     subparser = argparse.ArgumentParser(command.)
+    # let's try this
+    parser.parse_args('cleanup --help'.split())
 
     args = {}
     name = 'dummy_command'
+
     return name, args
 
 
