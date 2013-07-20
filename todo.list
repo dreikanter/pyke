@@ -1,0 +1,4 @@
+- Configure optpareser
+- Parse the options
+- If general help requested, generate help
+- Call the relevant function
