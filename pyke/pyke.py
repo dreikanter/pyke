@@ -16,6 +16,8 @@ def parse(metadata, args, description=None):
                                      epilog=const.EPILOG)
 
     subparsers = parser.add_subparsers(dest='command')
+    ver = version.get_version()
+    parser.add_argument('-v', '--version', action='version', version=ver)
 
     for command in metadata:
         subparser = subparsers.add_parser(command['name'], help=command['help'])
