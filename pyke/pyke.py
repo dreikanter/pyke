@@ -34,8 +34,11 @@ def parse(metadata, args, description=None):
                                        help=arg['help'])
 
     args = parser.parse_args(args)
+    command = args.command
+    args = vars(args)
+    del(args['command'])
 
-    return args.command, vars(args)
+    return command, args
 
 
 def main():
