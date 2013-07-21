@@ -18,7 +18,7 @@ def get_pykefile(dir_path):
         return None
 
 
-def load_commands(pykefile):
+def load_pykefile(pykefile):
     """gets pykefile commands as callable object and commands metadata"""
     pykemod = imp.load_source(const.PYKEMOD, pykefile)
 
@@ -96,13 +96,14 @@ def _args(func):
                 'name': name,
                 'shortname': shortname,
                 'type': argtype,
-                'default': False if argtype == bool else None,
+                'default': None,
                 'help': help,
             })
 
     if func.__defaults__:
-        for num, item in enumerate(func.__defaults__, start=1):
-            args[-num]['default'] = item or ''
+        start = len(args) - len(func.__defaults__)
+        for num, value in enumerate(func.__defaults__, start=start):
+            args[num]['default'] = value or ''
 
     return args
 
@@ -111,7 +112,7 @@ def arg_names(arg_meta):
     """get argument name(s) from metadata for ArgumentParser.add_argument()"""
     result = []
 
-    if arg_meta['default']:
+    if arg_meta['default'] != None:
         if arg_meta['shortname']:
             result.append("-%s" % arg_meta['shortname'])
         result.append("--%s" % arg_meta['name'])
