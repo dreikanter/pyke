@@ -16,29 +16,20 @@ def parse(metadata, args, description=None):
                                      epilog=const.EPILOG)
 
     subparsers = parser.add_subparsers(dest='command')
+
     ver = version.get_version()
     parser.add_argument('-v', '--version', action='version', version=ver)
 
     for command in metadata:
-        subparser = subparsers.add_parser(command['name'], help=command['help'])
+        sp = subparsers.add_parser(command['name'], help=command['help'])
         for arg in command['args']:
-            if arg['type'] == bool:
-                subparser.add_argument(*helpers.arg_names(arg),
-                                       default=bool(arg['default']),
-                                       action='store_true',
-                                       help=arg['help'])
-            else:
-                subparser.add_argument(*helpers.arg_names(arg),
-                                       default=arg['default'],
-                                       type=arg['type'],
-                                       help=arg['help'])
+            sp.add_argument(*helpers.arg_names(arg), **helpers.arg_opts(arg))
 
     args = parser.parse_args(args)
     command = args.command
-    args = vars(args)
-    del(args['command'])
+    del(args.command)
 
-    return command, args
+    return command, vars(args)
 
 
 def main():

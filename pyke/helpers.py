@@ -108,15 +108,27 @@ def _args(func):
     return args
 
 
-def arg_names(arg_meta):
+def arg_names(arg):
     """get argument name(s) from metadata for ArgumentParser.add_argument()"""
     result = []
 
-    if arg_meta['default'] != None:
-        if arg_meta['shortname']:
-            result.append("-%s" % arg_meta['shortname'])
-        result.append("--%s" % arg_meta['name'])
+    if arg['default'] != None:
+        if arg['shortname']:
+            result.append("-%s" % arg['shortname'])
+        result.append("--%s" % arg['name'])
     else:
-        result.append("%s" % arg_meta['name'])
+        result.append("%s" % arg['name'])
 
     return result
+
+
+def arg_opts(arg):
+    """generate add_argument() parameters from arg metadata"""
+    opts = { 'help': arg['help'] }
+
+    if arg['type'] == bool:
+        opts.update({ 'action': 'store_true' })
+    else:
+        opts.update({ 'default': arg['default'], 'type': arg['type'] })
+
+    return opts
