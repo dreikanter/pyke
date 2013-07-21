@@ -28,7 +28,8 @@ def sum(a: (int, 'first value'), b: (int, 'second value')):
     print("%d + %d == %d" % (a, b, a + b))
 
 
-def log(number: (float, 'number'), base: (float, 'logarithm base')=math.e):
+def log(number: (float, 'number'),
+        base: (float, 'b', 'logarithm base')=math.e):
     """prints logarithm of a [number] with respect to [base]"""
     print(math.log(number, base))
 
