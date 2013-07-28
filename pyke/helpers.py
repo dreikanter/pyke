@@ -5,8 +5,7 @@
 import imp
 import inspect
 import os
-from pprint import pprint
-from . import const
+from pyke import const
 
 
 def get_pykefile(dir_path):

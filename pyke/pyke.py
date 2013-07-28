@@ -6,9 +6,9 @@ import argparse
 import os
 import sys
 from pprint import pprint
-from . import const
-from . import helpers
-from . import version
+from pyke import const
+from pyke import helpers
+from pyke import version
 
 
 def parse(metadata, args, description=None):
@@ -27,7 +27,7 @@ def parse(metadata, args, description=None):
         for arg in task['args']:
             sp.add_argument(*helpers.arg_names(arg), **helpers.arg_opts(arg))
 
-    args = parser.parse_args(args)
+    args = parser.parse_args(args or ['-h'])
     task = args.task
     del(args.task)
 

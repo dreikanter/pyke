@@ -1,4 +1,4 @@
 import sys
-from .pyke import main
+from pyke.pyke import main
 
 sys.exit(main())
