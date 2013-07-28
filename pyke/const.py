@@ -1,7 +1,13 @@
 # coding: utf-8
 
+# the program name
+CMD = 'pyke'
+
+# program description for command line help
+DESCRIPTION = 'python make tool'
+
 # legal names for the pykefile
-PYKEFILE = ['Pykefile']
+PYKEFILE = ['Pykefile', 'pykefile', 'Pykefile.py', 'pykefile.py']
 
 # prefix to filter non-command functions in pykefiles
 UNDERSCORE = '_'
