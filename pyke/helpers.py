@@ -1,5 +1,7 @@
 # coding: utf-8
 
+"""helper functions"""
+
 import imp
 import inspect
 import os
@@ -19,13 +21,13 @@ def get_pykefile(dir_path):
 
 
 def load_pykefile(pykefile):
-    """gets pykefile commands as callable object and commands metadata"""
+    """gets pykefile tasks as callable object and tasks metadata"""
     pykemod = imp.load_source(const.PYKEMOD, pykefile)
 
-    commands = {}
+    tasks = {}
     metadata = []
 
-    # determine if specified pykefile function supposed to be a command
+    # determine if specified pykefile function supposed to be a task
     good_dog = lambda func: inspect.isfunction(func) and \
                             func.__module__ == const.PYKEMOD and \
                             not func.__name__.startswith(const.UNDERSCORE)
@@ -33,24 +35,16 @@ def load_pykefile(pykefile):
     for member in inspect.getmembers(pykemod):
         name, func = member
         if good_dog(func):
-            commands[name] = func
+            tasks[name] = func
             metadata.append(_metadata(name, func))
 
     description = pykemod.__doc__
 
-    # demo!
-    commands['dummy_command'] = dummy_command
-
-    return commands, metadata, description
-
-
-# demo command
-def dummy_command(**args):
-    print(args)
+    return tasks, metadata, description
 
 
 def _metadata(name, func):
-    """gets pyke command metadata from callable object"""
+    """gets pyke task metadata from callable object"""
     return {
             'name': name,
             'args': _args(func),
@@ -59,7 +53,7 @@ def _metadata(name, func):
 
 
 def _args(func):
-    """get annotated command parameters"""
+    """get annotated task parameters"""
     args = []
     error_format = "%s (function: %s; argument: %s)"
     argerror = lambda msg: error_format % (msg, func.__name__, name)
