@@ -1,11 +1,34 @@
-- Use task term instead of command. Command is an operation name. Task is a named operation.
++ Use task term instead of command. Command is an operation name. Task is a named operation.
++ --describe pattern (-D) — Describe the tasks (matching optional PATTERN), then exit.
++ (?) --dry-run (-n) — Do a dry run. Print the tasks invoked and executed, but do not actually execute any of the actions.
++ --quiet (-q) — Do not echo commands from FileUtils.
++ --rakefile filename (-f) — Use filename as the name of the rakefile. The default rakefile names are rakefile and Rakefile (with rakefile taking precedence). If the rakefile is not found in the current directory, rake will search parent directories for a match. The directory where the Rakefile is found will become the current directory for the actions executed in the Rakefile.
++ --verbose (-v) — Echo the Sys commands to standard output.
 
-Implement basic rake options:
-- --describe pattern (-D) — Describe the tasks (matching optional PATTERN), then exit.
-- (?) --dry-run (-n) — Do a dry run. Print the tasks invoked and executed, but do not actually execute any of the actions.
-- --quiet (-q) — Do not echo commands from FileUtils.
-- --rakefile filename (-f) — Use filename as the name of the rakefile. The default rakefile names are rakefile and Rakefile (with rakefile taking precedence). If the rakefile is not found in the current directory, rake will search parent directories for a match. The directory where the Rakefile is found will become the current directory for the actions executed in the Rakefile.
-- --verbose (-v) — Echo the Sys commands to standard output.
+- pyke
+  - if no pykefile
+    - say no pykefile
+  - else if default task defined
+    - execute default
+  - else say 'no default task defined in the pykefile, use --help'
+- pyke -h/--help
+  - if pykefile exists
+    - parse
+  - show global help
+- pyke <task> --help
+  - if no pykefile
+    - say no pykefile
+  - else if task not definded
+    - say task not defined
+  - else show task help
+- else (pyke <anything>)
+  - if no pykefile
+    - say no pykefile
+  - else
+    - process command line with pykeparser
+    - execute task
+
+- Search parent directories for pykefile // If the rakefile is not found in the current directory, rake will search parent directories for a match. The directory where the Rakefile is found will become the current directory for the actions executed in the Rakefile.
 
 Shortcuts for file manipulations and system calls (wrap shutil):
 - control echo by --quiet

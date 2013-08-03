@@ -7,7 +7,7 @@ CMD = 'pyke'
 DESCRIPTION = 'python make tool'
 
 # legal names for the pykefile
-PYKEFILE = ['Pykefile', 'pykefile', 'Pykefile.py', 'pykefile.py']
+PYKEFILE = ['pykefile', 'Pykefile', 'pykefile.py', 'Pykefile.py']
 
 # prefix to filter non-command functions in pykefiles
 UNDERSCORE = '_'
@@ -20,3 +20,6 @@ EPILOG = 'may force be with you'
 
 # available type constrains for command argument
 LEGAL_TYPES = [int, float, str, bool]
+
+# default task name
+DEFAULT_TASK = 'default'

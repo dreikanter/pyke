@@ -1,7 +1,7 @@
 # coding: utf-8
 
-import imp
 import inspect
+from pyke import const
 
 
 class PykeTask():
@@ -13,16 +13,16 @@ class PykeTask():
         self.args = self._args(func)
         self.help = func.__doc__
 
+    def __str__(self):
+        pattern = "{%s name: %s; help: %s}"
+        return  pattern % (__class__.__name__, self.name, self.help)
 
     def call(self, args):
         """Call the task function."""
-
         self.func(**args)
-
 
     def _args(self, func):
         """Get annotated task parameters."""
-
         args = []
         error_format = "%s (function: %s; argument: %s)"
         argerror = lambda msg: error_format % (msg, func.__name__, name)

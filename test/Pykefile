@@ -55,7 +55,6 @@ def cleanup(path: (str, 'path'),
             whitelist: (str, 'w', 'files to NOT delete')=WHITELIST,
             dryrun: (bool, 'd', 'dry run')=False):
     """delete temporary files"""
-
     # check the destination directory path
     if not os.path.isdir(path):
         print('specified path not exists or not a directory')

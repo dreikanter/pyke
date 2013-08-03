@@ -1,7 +1,10 @@
 # coding: utf-8
 
+import imp
+import inspect
 import os.path
 from pyke import const
+from pyke.task import PykeTask
 
 
 class PykeFile():
@@ -9,24 +12,30 @@ class PykeFile():
 
     def __init__(self, dir_path):
         """Search for pyke file in the specified and load it."""
+        file_name = dir_path
+        if not os.path.isfile(dir_path):
+            for valid_name in const.PYKEFILE:
+                file_name = os.path.join(dir_path, valid_name)
+                if os.path.exists(file_name):
+                    break
+            else:
+                file_name = None
 
-        for valid_name in const.PYKEFILE:
-            self._fullname = os.path.join(dir_path, valid_name)
-            if os.path.exists(self._fullname):
-                self._load()
-                break
-        else:
-            self._fullname = None
+        self._load(file_name)
 
+    def __str__(self):
+        pattern = "{%s filename: %s; tasks: [%s]}"
+        return pattern % (__class__.__name__, self._fullname, tasks.keys())
 
-    def _load(self):
+    def _load(self, file_name):
         """Loads pykefile tasks."""
+        self._fullname = os.path.abspath(file_name) if file_name else None
+        self._tasks = {}  # task functions
+        self.metadata = []  # task information
+        if not self._fullname:
+            return
 
         pykemod = imp.load_source(const.PYKEMOD, self._fullname)
-
-        self.tasks = {}  # task functions
-        self.metadata = []  # task information
-
         is_task = lambda func: inspect.isfunction(func) and \
                                func.__module__ == const.PYKEMOD and \
                                not func.__name__.startswith(const.UNDERSCORE)
@@ -34,30 +43,25 @@ class PykeFile():
         for member in inspect.getmembers(pykemod):
             name, func = member
             if is_task(func):
-                self.tasks[name] = PykeTask(name, func)
+                self._tasks[name] = PykeTask(name, func)
+                print(self._tasks[name])
 
         self.description = pykemod.__doc__
 
-
     def loaded(self):
         """Returns True if pykefile was found and loaded."""
+        return bool(self._fullname)
 
-        return self._fullname != None
+    def file_name(self):
+        """Returns absolute path to the pykefile or None if not loaded."""
+        return self._fullname
 
-
-    def parser(self):
-        """Create PykeParser populated with pykefile commands."""
-
-        parser = PykeParser()
-
-        if self.loaded():
-            for name, task in self.tasks.items():
-                parser.add_task(name, args=task.args, help=task.help)
-
-        return parser
-
+    def tasks(self):
+        """Returns tasks dict or {} if pykefile was not loaded."""
+        return self._tasks if self.loaded() else {}
 
     def execute(self, task, args):
         """Run a pyke task."""
-
-        self.tasks[task].call(args)
+        excludes = ['task', 'quiet', 'verbose', 'dryrun', 'help', 'file']
+        task_args = {k: args[k] for k in args if k not in excludes}
+        self._tasks[task].call(task_args)
