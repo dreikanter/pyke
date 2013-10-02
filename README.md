@@ -1,8 +1,8 @@
 # Pyke
 
-Pyke is [rake](http://rake.rubyforge.org/)-inspired minimalistic [make](http://en.wikipedia.org/wiki/Make_(software)) tool for Python.
+Pyke is [rake](http://rake.rubyforge.org/)-inspired minimalistic [make](http://en.wikipedia.org/wiki/Make_(software) tool for Python.
 
-The core benefit of Pyke over identical systems is the task files organization. Instead of using function decorators to translate command line options to function arguments, it uses parameters annotation, which are available in Python since 3.3. Also Pyke plays well with argument defaults, and has value validation by type.
+The core benefit of Pyke over identical systems is the task files organization. Instead of using function decorators, it uses annotations to translate command line options to function arguments. Annotations is a syntax to add any metadata to function definitions, wich became available since Python 3.3 (see [PEP 3107](http://www.python.org/dev/peps/pep-3107/) for details). Pyke plays well with default argument values and docstrings. Also it has type-based value validation.
 
 ## Usage
 
