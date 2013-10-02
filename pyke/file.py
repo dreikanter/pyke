@@ -11,7 +11,7 @@ class PykeFile():
     """Pykefile representation."""
 
     def __init__(self, dir_path):
-        """Search for pyke file in the specified and load it."""
+        """Search for pyke file in the specified directory and load it."""
         file_name = dir_path
         if not os.path.isfile(dir_path):
             for valid_name in const.PYKEFILE:
@@ -28,7 +28,7 @@ class PykeFile():
         return pattern % (__class__.__name__, self._fullname, tasks.keys())
 
     def _load(self, file_name):
-        """Loads pykefile tasks."""
+        """Load pykefile tasks."""
         self._fullname = os.path.abspath(file_name) if file_name else None
         self._tasks = {}  # task functions
         self.metadata = []  # task information
@@ -44,20 +44,19 @@ class PykeFile():
             name, func = member
             if is_task(func):
                 self._tasks[name] = PykeTask(name, func)
-                print(self._tasks[name])
 
         self.description = pykemod.__doc__
 
     def loaded(self):
-        """Returns True if pykefile was found and loaded."""
+        """Return True if pykefile was found and loaded."""
         return bool(self._fullname)
 
     def file_name(self):
-        """Returns absolute path to the pykefile or None if not loaded."""
+        """Return absolute path to the pykefile or None if not loaded."""
         return self._fullname
 
     def tasks(self):
-        """Returns tasks dict or {} if pykefile was not loaded."""
+        """Return tasks dict or {} if pykefile was not loaded."""
         return self._tasks if self.loaded() else {}
 
     def execute(self, task, args):

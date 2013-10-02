@@ -8,7 +8,6 @@ import sys
 from pyke import const
 from pyke.env import setenv
 from pyke.file import PykeFile
-from pyke.help import help
 from pyke.parsers import CoarseParser, PykeParser
 
 
@@ -17,14 +16,16 @@ def main():
 
     basic_args = CoarseParser().parse_args(argv)
     pykefile = PykeFile(basic_args.file)
-
-    if basic_args.help:
-        help(pykefile, basic_args.task)
-        exit()
-
-    args = vars(PykeParser(tasks=pykefile.tasks()).parse_args(argv))
+    parser = PykeParser(tasks=pykefile.tasks())
+    args = vars(parser.parse_args(argv))
 
     if pykefile.loaded():
+        print(args)
+        if not basic_args.task:
+            print('Pykefile task not specified.\n')
+            parser.print_help()
+            exit()
+
         setenv(args)
         pykefile.execute(basic_args.task, args)
     else:

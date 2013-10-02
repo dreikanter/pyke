@@ -8,7 +8,7 @@ from pyke import version
 
 
 class CoarseParser(argparse.ArgumentParser):
-    """Arguments parser fot initial extraction of the basic parameters."""
+    """Arguments parser for basic parameters."""
 
     # Repeating base constructor signature is important to make subparsers work
     def __init__(self,
@@ -41,7 +41,7 @@ class CoarseParser(argparse.ArgumentParser):
         self.add_args()
 
     def add_args(self):
-        """Adds basic pyke arguments to the parent parser."""
+        """Add basic pyke arguments to the parent parser."""
 
         self.add_argument('task',
                           nargs='?',
@@ -51,7 +51,7 @@ class CoarseParser(argparse.ArgumentParser):
                           dest='file',
                           default=os.getcwd(),
                           metavar='PATH',
-                          help='use explicirly specified pykefile')
+                          help='use explicitly specified pykefile')
 
         self.add_argument('-h', '--help',
                           dest='help',
@@ -92,7 +92,7 @@ class PykeParser(argparse.ArgumentParser):
                          fromfile_prefix_chars=fromfile_prefix_chars,
                          argument_default=argument_default,
                          conflict_handler=conflict_handler,
-                         add_help=False)
+                         add_help=True)
 
         self.add_args()
         self._sps = None
@@ -118,7 +118,7 @@ class PykeParser(argparse.ArgumentParser):
                           dest='file',
                           default=None,
                           metavar='PATH',
-                          help='use explicirly specified pykefile')
+                          help='use explicitly specified pykefile')
 
         self.add_argument('-v', '--verbose',
                           dest='verbose',
@@ -128,11 +128,6 @@ class PykeParser(argparse.ArgumentParser):
         self.add_argument('--version',
                           action='version',
                           version=version.get_version())
-
-        self.add_argument('-h', '--help',
-                          dest='help',
-                          action='store_true',
-                          help='show help')
 
     def add_task(self, task):
         """Add new subparser for a pyke task."""
@@ -151,7 +146,7 @@ class PykeParser(argparse.ArgumentParser):
 
 
 def _arg_names(arg):
-    """get argument name(s) from metadata for add_argument()"""
+    """get argument names from metadata for add_argument()"""
 
     result = []
 
