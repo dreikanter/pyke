@@ -2,7 +2,7 @@
 
 Pyke is [rake](http://rake.rubyforge.org/)-inspired minimalistic [make](http://en.wikipedia.org/wiki/Make_(software) tool for Python.
 
-The core benefit of Pyke over identical systems is the task files organization. Instead of using function decorators, it uses annotations to translate command line options to function arguments. Annotations is a syntax to add any metadata to function definitions, wich became available since Python 3.3 (see [PEP 3107](http://www.python.org/dev/peps/pep-3107/) for details). Pyke plays well with default argument values and docstrings. Also it has type-based value validation.
+The core benefit of Pyke over identical systems is the task files organization. Instead of using function decorators, it uses annotations to translate command line options to function arguments. Annotations is a syntax to add any metadata to function definitions, which became available since Python 3.3 (see [PEP 3107](http://www.python.org/dev/peps/pep-3107/) for details). Pyke plays well with default argument values and docstrings. Also it has type-based value validation.
 
 ## Usage
 
@@ -129,7 +129,7 @@ def _drop_dirs(dirs, dryrun):
                 print("ERROR: %s" % str(ex))
 ```
 
-Put this file to any directory and execute pyke --help command to see how function definitions translates to command line options:
+Put this file to any directory and execute `pyke --help` command to see how function definitions translates to command line options:
 
 ```
 $ pyke --help
@@ -150,7 +150,7 @@ optional arguments:
   -h, --help            show this help message and exit
   -n, --dry-run         do a dry run
   -q, --quiet           do not echo commands
-  -f PATH, --file PATH  use explicirly specified pykefile
+  -f PATH, --file PATH  use explicitly specified pykefile
   -v, --verbose         use verbose logging
   --version             show program's version number and exit
 ```
@@ -169,6 +169,6 @@ positional arguments:
 
 ## License
 
-- Project home page: [https://github.com/dreikanter/python-bootstrap](https://github.com/dreikanter/python-bootstrap)
+- Project home page: [https://github.com/dreikanter/pyke](https://github.com/dreikanter/pyke)
 - Author: Alex Musayev, [http://alex.musayev.com](http://alex.musayev.com)
 - License: [MIT](http://opensource.org/licenses/MIT) (non-viral, totally free)
