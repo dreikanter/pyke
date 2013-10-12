@@ -2,15 +2,25 @@
 
 Pyke is [rake](http://rake.rubyforge.org/)-inspired minimalistic [make](http://en.wikipedia.org/wiki/Make_(software) tool for Python.
 
-The core benefit of Pyke over identical systems is the task files organization. Instead of using function decorators, it uses annotations to translate command line options to function arguments. Annotations is a syntax to add any metadata to function definitions, which became available since Python 3.3 (see [PEP 3107](http://www.python.org/dev/peps/pep-3107/) for details). Pyke plays well with default argument values and docstrings. Also it has type-based value validation.
+The core benefit of Pyke over identical systems is the task files organization. There are no mandatory syntax constructions in addition to Python code to get an up-and-running command line interface. No decorators or specific docstrings required.
+
+After `pyke` module is imported to a script, Pyke automagically translates function definitions to `argparse` parser configuration. Pyke is actively using [function annotations](http://www.python.org/dev/peps/pep-3107/) for additional capabilities like command line help and type validation. Also it plays well with default argument values and docstrings.
 
 ## Usage
 
-Here is an example for Pykefile with some basic tasks:
+Pyke is working identically to the majority of make tools. It allows to execute tasks defined within a specific file named `Pykefile`. Pykefiles are ordinary Python scripts. Each function from a pykefile is interpreted by Pyke as a separate task available to be executed from the command line.
+
+Here is the basic syntax:
+
+```
+pyke <task> [options]
+```
+
+This command make Pyke to run a specified `<task>` with some optional arguments (`[otions]`) from a pykefile located in the current working directory. It is possible to execute pykefile tasks from arbitrary location using `-f` key, and there is always `--help` key available to get usage details for base `pyke` command arguments and pykefile-specific tasks.
+
+Here is an example Pykefile with some basic tasks. Each function demonstrates one of Pyke features, from the most basic use case to advanced one.
 
 ``` python
-# coding: utf-8
-
 """example pykefile"""
 
 from fnmatch import fnmatch
@@ -129,7 +139,7 @@ def _drop_dirs(dirs, dryrun):
                 print("ERROR: %s" % str(ex))
 ```
 
-Put this file to any directory and execute `pyke --help` command to see how function definitions translates to command line options:
+Put this file to current working directory and execute `pyke --help` command to see how function definitions translates to command line options:
 
 ```
 $ pyke --help
@@ -155,7 +165,7 @@ optional arguments:
   --version             show program's version number and exit
 ```
 
-There are also a detailed help available for each command:
+It is also possible to get a detailed help for each command:
 
 ```
 $ pyke md5 --help
