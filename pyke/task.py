@@ -13,7 +13,8 @@ class PykeTask():
 
     def __str__(self):
         pattern = "{%s name: %s; help: %s}"
-        return  pattern % (__class__.__name__, self.name, self.help)
+        name = self.__class__.__name__
+        return pattern % (name, self.name, self.help)
 
     def call(self, args):
         """Call the task function."""
@@ -32,9 +33,9 @@ class PykeTask():
 
             if name in func.__annotations__:
                 annotation = func.__annotations__[name]
-                if type(annotation) == type:  # we have argument type constraint
+                if type(annotation) == type:  # got argument type constraint
                     argtype = annotation
-                elif type(annotation) == str:  # we have argument description
+                elif type(annotation) == str:  # got argument description
                     help = annotation
                 elif type(annotation) in [tuple, list]:
                     if len(annotation) > 2:  # got full definition
@@ -54,12 +55,12 @@ class PykeTask():
                 raise Exception(argerror('illegal argument type constraint'))
 
             args.append({
-                    'name': name,
-                    'shortname': shortname,
-                    'type': argtype,
-                    'default': None,
-                    'help': help,
-                })
+                'name': name,
+                'shortname': shortname,
+                'type': argtype,
+                'default': None,
+                'help': help,
+            })
 
         if func.__defaults__:
             start = len(args) - len(func.__defaults__)

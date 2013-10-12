@@ -7,7 +7,7 @@ __status__ = 'Development'
 __url__ = 'http://github.com/dreikanter/pyke'
 
 __copyright__ = "Copyright {year}, {author} <{home}>".format(
-        author=__author__,
-        year=date.today().year,
-        home='http://alex.musayev.com'
-    )
+    author=__author__,
+    year=date.today().year,
+    home='http://alex.musayev.com'
+)

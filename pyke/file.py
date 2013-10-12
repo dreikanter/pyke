@@ -23,7 +23,8 @@ class PykeFile():
 
     def __str__(self):
         pattern = "{%s filename: %s; tasks: [%s]}"
-        return pattern % (__class__.__name__, self._fullname, tasks.keys())
+        name = self.__class__.__name__
+        return pattern % (name, self._fullname, self.tasks().keys())
 
     def _load(self, file_name):
         """Load pykefile tasks."""
@@ -35,8 +36,8 @@ class PykeFile():
 
         pykemod = imp.load_source(const.PYKEMOD, self._fullname)
         is_task = lambda func: inspect.isfunction(func) and \
-                               func.__module__ == const.PYKEMOD and \
-                               not func.__name__.startswith(const.UNDERSCORE)
+            func.__module__ == const.PYKEMOD and \
+            not func.__name__.startswith(const.UNDERSCORE)
 
         for member in inspect.getmembers(pykemod):
             name, func = member

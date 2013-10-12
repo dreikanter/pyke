@@ -56,7 +56,6 @@ class CoarseParser(argparse.ArgumentParser):
                           action='store_true',
                           help='show help')
 
-
     def parse_args(self, args):
         return self.parse_known_args(args)[0]
 
@@ -130,7 +129,7 @@ class PykeParser(argparse.ArgumentParser):
     def add_task(self, task):
         """Add new subparser for a pyke task."""
 
-        if self._sps == None:
+        if self._sps is None:
             self._sps = self.add_subparsers(dest='task')
 
         sp = self._sps.add_parser(task.name, help=task.help)
@@ -148,7 +147,7 @@ def _arg_names(arg):
 
     result = []
 
-    if arg['default'] != None:
+    if arg['default'] is not None:
         if arg['shortname']:
             result.append("-%s" % arg['shortname'])
         result.append("--%s" % arg['name'])
@@ -161,11 +160,11 @@ def _arg_names(arg):
 def _arg_opts(arg):
     """generate add_argument() parameters from arg metadata"""
 
-    opts = { 'help': arg['help'] }
+    opts = {'help': arg['help']}
 
     if arg['type'] == bool:
-        opts.update({ 'action': 'store_true' })
+        opts.update({'action': 'store_true'})
     else:
-        opts.update({ 'default': arg['default'], 'type': arg['type'] })
+        opts.update({'default': arg['default'], 'type': arg['type']})
 
     return opts

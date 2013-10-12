@@ -1,7 +1,5 @@
 """Pyke — Python build tool."""
 
-from argparse import ArgumentParser
-import os
 import sys
 from pyke import const
 from pyke.env import setenv
