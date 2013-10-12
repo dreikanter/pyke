@@ -1,11 +1,8 @@
-#!/usr/bin/env python
-
-# coding: utf-8
-
 import os
 from setuptools import setup, find_packages
 import pyke.authoring
 from pyke.version import get_version
+import subprocess as sp
 
 
 def get_data_files(path):
@@ -21,6 +18,16 @@ def get_data_files(path):
     return files
 
 
+def get_desc(file_name):
+    """Get long description by converting README file to reStructuredText."""
+    cmd = "pandoc --from=markdown --to=rst %s" % file_name
+    try:
+        with sp.Popen(cmd, stdout=sp.PIPE, stderr=sp.PIPE) as process:
+            return process.stdout.read().decode('utf-8')
+    except FileNotFoundError:
+        return open(file_name).read()
+
+
 setup(
     name='pyke',
     description='A missing Python make tool.',
@@ -29,97 +36,21 @@ setup(
     author=pyke.authoring.__author__,
     author_email=pyke.authoring.__email__,
     url=pyke.authoring.__url__,
-
-    # This will use readme contents as a long description
-    long_description=open('README.md').read(),
-
+    long_description=get_desc('README.md'),
     platforms=['any'],
     packages=find_packages(),
-
-    # This will put all data files from the package directory to the egg
     package_data={'pyke': get_data_files('pyke')},
-
-    # TODO: Put here required package names
-    install_requires=[
-    ],
-
-    # TODO: Use this to define the tool's command
+    install_requires=[],
     entry_points={'console_scripts': ['pyke = pyke.pyke:main']},
-
     include_package_data=True,
     zip_safe=False,
-
-    # TODO: Get the relevant classifiers from here:
-    # https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        # Development Status :: 1 - Planning
-        # Development Status :: 2 - Pre-Alpha
-        # Development Status :: 3 - Alpha
-        # Development Status :: 4 - Beta
-        # Development Status :: 5 - Production/Stable
-        # Development Status :: 6 - Mature
-        # Development Status :: 7 - Inactive
-        # Environment :: Console
-        # Environment :: MacOS X
-        # Environment :: Win32 (MS Windows)
-        # Intended Audience :: Customer Service
-        # Intended Audience :: Developers
-        # Intended Audience :: Education
-        # Intended Audience :: End Users/Desktop
-        # Intended Audience :: Financial and Insurance Industry
-        # Intended Audience :: Healthcare Industry
-        # Intended Audience :: Information Technology
-        # Intended Audience :: Legal Industry
-        # Intended Audience :: Manufacturing
-        # Intended Audience :: Other Audience
-        # Intended Audience :: Religion
-        # Intended Audience :: Science/Research
-        # Intended Audience :: System Administrators
-        # Intended Audience :: Telecommunications Industry
-        # License :: Free For Educational Use
-        # License :: Free For Home Use
-        # License :: Free for non-commercial use
-        # License :: Freely Distributable
-        # License :: OSI Approved :: Academic Free License (AFL)
-        # License :: OSI Approved :: Apache Software License
-        # License :: OSI Approved :: BSD License
-        # License :: OSI Approved :: GNU General Public License v2 (GPLv2)
-        # License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)
-        # License :: OSI Approved :: GNU General Public License v3 (GPLv3)
-        # License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
-        # License :: OSI Approved :: GNU Lesser General Public License v2 (LGPLv2)
-        # License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)
-        # License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
-        # License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)
-        # License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
-        # License :: OSI Approved :: MIT License
-        # License :: Other/Proprietary License
-        # License :: Public Domain
-        # Natural Language :: English
-        # Operating System :: MacOS
-        # Operating System :: Microsoft :: Windows
-        # Operating System :: OS Independent
-        # Operating System :: POSIX :: Linux
-        # Operating System :: Unix
-        # Programming Language :: Python
-        # Programming Language :: Python :: 2
-        # Programming Language :: Python :: 2.3
-        # Programming Language :: Python :: 2.4
-        # Programming Language :: Python :: 2.5
-        # Programming Language :: Python :: 2.6
-        # Programming Language :: Python :: 2.7
-        # Programming Language :: Python :: 2 :: Only
-        # Programming Language :: Python :: 3
-        # Programming Language :: Python :: 3.0
-        # Programming Language :: Python :: 3.1
-        # Programming Language :: Python :: 3.2
-        # Programming Language :: Python :: 3.3
-        # Topic :: Utilities
+        'Development Status :: 4 - Beta',
+        # 'Development Status :: 5 - Production/Stable',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3.3',
     ],
-
-    # TODO: Define external dependencies
-    dependency_links=[
-        # Dependencies that's not on PyPI could be defined like this:
-        # 'https://github.com/{user}/{project}/tarball/master#egg={package}'
-    ],
+    dependency_links=[],
 )
