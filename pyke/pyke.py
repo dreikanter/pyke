@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """Pyke — Python build tool."""
 
 from argparse import ArgumentParser

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 import imp
 import inspect
 import os.path

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 from datetime import date
 
 __author__ = 'Alex Musayev'
